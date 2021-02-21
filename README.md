@@ -1,5 +1,5 @@
 # webstats
-WebStats collects data like compression, IP version, HTTP version, Generator used and image formats for(https://majestic.com/reports/majestic-million)[top million site
+WebStats collects data like compression, IP version, HTTP version, Generator used and image formats for [top million site](https://majestic.com/reports/majestic-million)
 
 ## Run Node server
 
@@ -11,6 +11,7 @@ node image.js
 
 ## Run go crawler
 ``` bash
+go get ./...
 go build -o webstats main.go
 webstats crawler
 ```
