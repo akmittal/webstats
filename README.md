@@ -5,7 +5,7 @@ WebStats collects data like compression, IP version, HTTP version, Generator use
 
 ``` bash
 cd ./bin/images/
-npm i
+npm install
 node image.js
 ```
 
