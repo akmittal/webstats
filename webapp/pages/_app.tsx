@@ -5,7 +5,15 @@ import { ChakraProvider, Grid, Box } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Drawer from "../components/Drawer";
 import { css } from "@emotion/react";
-import 'tailwindcss/tailwind.css'
+import 'tailwindcss/tailwind.css';
+
+import nProgress from "nprogress";
+import { Router } from "next/router";
+import "/styles/nprogress.css"
+
+Router.events.on("routeChangeStart", nProgress.start);
+Router.events.on("routeChangeError", nProgress.done);
+Router.events.on("routeChangeComplete", nProgress.done);
 
 const queryClient = new QueryClient();
 const sec = css`

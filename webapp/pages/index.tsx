@@ -1,14 +1,14 @@
-import { Heading, Text, Link } from '@chakra-ui/react';
-import React, { ReactElement, useEffect, useState } from 'react';
-import { AgGridReact } from 'ag-grid-react';
+import { Heading, Text, Link } from "@chakra-ui/react";
+import React, { ReactElement, useEffect, useState } from "react";
+import { AgGridReact } from "ag-grid-react";
 import Head from "next/head";
 
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-
-
-interface Props {}
+interface Props {
+  data:any
+}
 const state = {
   defaultColDef: {
     floatingFilter: true,
@@ -26,45 +26,45 @@ const state = {
   suppressRowClickSelection: true,
   groupSelectsChildren: true,
   debug: true,
-  rowSelection: 'multiple',
-  rowGroupPanelShow: 'always',
-  pivotPanelShow: 'always',
+  rowSelection: "multiple",
+  rowGroupPanelShow: "always",
+  pivotPanelShow: "always",
   enableRangeSelection: true,
 
   pagination: true,
 
   columnDefs: [
     {
-      headerName: 'Rank',
-      field: 'site.rank',
+      headerName: "Rank",
+      field: "site.rank",
       sortable: true,
-      sort: 'asc',
-      filter: 'agNumberColumnFilter',
+      sort: "asc",
+      filter: "agNumberColumnFilter",
     },
     {
-      headerName: 'Domain',
-      field: 'site.domain',
+      headerName: "Domain",
+      field: "site.domain",
       sortable: true,
-      filter: 'agTextColumnFilter',
+      filter: "agTextColumnFilter",
     },
     {
-      headerName: 'Compression',
-      field: 'compression',
+      headerName: "Compression",
+      field: "compression",
       sortable: true,
-      filter: 'agTextColumnFilter',
+      filter: "agTextColumnFilter",
     },
     {
-      headerName: 'Protocol',
-      field: 'protocol',
+      headerName: "Protocol",
+      field: "protocol",
       sortable: true,
-      filter: 'agTextColumnFilter',
+      filter: "agTextColumnFilter",
     },
     {
-      headerName: 'Images',
-      field: 'images',
+      headerName: "Images",
+      field: "images",
       cellRenderer: function (params: any): HTMLElement | string {
         // check the data exists, to avoid error
-       
+
         if (params.data) {
           // data exists, so we can access it
           const res = params.data.images.reduce((prev: any, curr: any) => {
@@ -75,58 +75,55 @@ const state = {
             }
             return prev;
           }, {});
-          const ul = document.createElement('ul');
+          const ul = document.createElement("ul");
           for (const key in res) {
-            const span = document.createElement('span');
+            const span = document.createElement("span");
             span.innerHTML = `${key}: ${res[key]}, `;
             ul.appendChild(span);
           }
           return ul;
         }
         // when we return null, the grid will display a blank cell
-        return '';
+        return "";
       },
     },
     {
-      headerName: 'IPVersion',
-      field: 'ip_version',
+      headerName: "IPVersion",
+      field: "ip_version",
       sortable: true,
-      filter: 'agTextColumnFilter',
+      filter: "agTextColumnFilter",
     },
     {
-      headerName: 'SSG',
-      field: 'ssg',
+      headerName: "SSG",
+      field: "ssg",
       sortable: true,
-      filter: 'agTextColumnFilter',
+      filter: "agTextColumnFilter",
     },
   ],
   rowData: [],
 };
 
-export default function Home({}: Props): ReactElement {
-  const [data, setData] = useState(state);
-  useEffect(() => {
-    fetch('/api')
-      .then(res => res.json())
-      .then(res => {
-        setData({ ...data, rowData: res });
-      });
-  }, []);
+export default function Home({data:rowData}: Props): ReactElement {
+
+  const data = {...state, rowData: rowData};
 
   return (
     <>
-    <Head>
-      <title>Webstats</title>
-      <meta name="description" content="Check statistics for compression, IP version, Tech stack for top websites " />
-    </Head>
+      <Head>
+        <title>Webstats</title>
+        <meta
+          name="description"
+          content="Check statistics for compression, IP version, Tech stack for top websites "
+        />
+      </Head>
       <Heading className="mt-6 p-2">Home</Heading>
       <hr className="pb-4" />
       <div
         className="ag-theme-alpine"
         style={{
-          height: '500px',
-         width:'90%',
-         margin:'auto',
+          height: "500px",
+          width: "90%",
+          margin: "auto",
         }}
       >
         <AgGridReact
@@ -151,4 +148,12 @@ export default function Home({}: Props): ReactElement {
       </div>
     </>
   );
+}
+export async function getStaticProps() {
+  const data = await fetch("http://webstats.co.in/api").then((res) => res.json());
+  return {
+    props: {
+      data,
+    },
+  };
 }

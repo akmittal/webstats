@@ -66,7 +66,7 @@ function Stats({ type, data }: Props): ReactElement {
 
 export const getStaticProps = async ({ params }: any) => {
   const { type } = params;
-  const data = await fetch(`http://localhost:3000/api/stats/${type}`).then(
+  const data = await fetch(`http://webstats.co.in/api/stats/${type}`).then(
     (res) => res.json()
   );
   return { props: { type, data } };
