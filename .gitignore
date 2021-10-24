@@ -16,3 +16,6 @@
 
 bin/images/node_modules
 .DS_Store
+*.sqlite3
+webstats
+.env

@@ -1,9 +1,12 @@
-import { Heading } from '@chakra-ui/react';
+import { Heading, Text, Link } from '@chakra-ui/react';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
+import Head from "next/head";
+
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
 
 interface Props {}
 const state = {
@@ -35,6 +38,7 @@ const state = {
       headerName: 'Rank',
       field: 'site.rank',
       sortable: true,
+      sort: 'asc',
       filter: 'agNumberColumnFilter',
     },
     {
@@ -111,6 +115,10 @@ export default function Home({}: Props): ReactElement {
 
   return (
     <>
+    <Head>
+      <title>Webstats</title>
+      <meta name="description" content="Check statistics for compression, IP version, Tech stack for top websites " />
+    </Head>
       <Heading className="mt-6 p-2">Home</Heading>
       <hr className="pb-4" />
       <div
@@ -134,6 +142,12 @@ export default function Home({}: Props): ReactElement {
           pagination={true}
           rowData={data.rowData}
         ></AgGridReact>
+        <Text>
+          * Data for top 10,000 most visited pages is provided by{" "}
+          <Link href="http://downloads.majestic.com/majestic_million.csv">
+            Majestic million
+          </Link>{" "}
+        </Text>
       </div>
     </>
   );

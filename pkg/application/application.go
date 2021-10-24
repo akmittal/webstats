@@ -80,6 +80,8 @@ func (a *Application) RegisterRoutes() {
 		}
 		if paramaType == "images" {
 			a.DB.Client.Model(&crawl.Stats{}).Select(" images.type as name", "count(*) as total").Where("images.type <> ''").Joins("inner join images on images.stat_refer=stats.id").Group("images.type").Find(&stats)
+		} else if paramaType == "ssg" {
+			a.DB.Client.Model(&crawl.Stats{}).Select(paramaType+" as name", "count(*) as total").Where(paramaType + " <> ''").Where(paramaType + " <> 'other'").Group(paramaType).Find(&stats)
 		} else {
 			a.DB.Client.Model(&crawl.Stats{}).Select(paramaType+" as name", "count(*) as total").Where(paramaType + " <> ''").Group(paramaType).Find(&stats)
 		}

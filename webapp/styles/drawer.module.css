@@ -1,0 +1,34 @@
+.drawer {
+  z-index: 99;
+  position: relative;
+  min-width: 200px;
+  transition: 0.3s transform;
+  will-change: transform;
+}
+@media (max-width: 480px) {
+  .drawer {
+    width: 0px !important;
+    transform: translateX(-100%);
+  }
+}
+
+.logo {
+  width: 100%;
+display: flex;
+justify-content: center;
+
+}
+.logo > img {
+  width: 200px;
+  filter: brightness(0.5);
+}
+
+.hamburger{
+  background-color: #3182ce;
+  right: -40px;
+  width: 40px;
+  transition: 0.2s display;
+  @media (max-width: 480px) {
+    display: block;
+  }
+}
